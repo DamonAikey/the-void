@@ -1,0 +1,76 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Dev Hub</title>
+  <link rel="stylesheet" href="https://unpkg.com/xterm/css/xterm.css" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    #terminal { height: 300px; width: 100%; background: #000; }
+    ul { list-style-type: none; padding: 0; }
+    li { margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <h1>Dev Hub</h1>
+  
+  <!-- File Sharing Section -->
+  <section>
+    <h2>File Upload</h2>
+    <form id="uploadForm" enctype="multipart/form-data" method="post" action="/upload">
+      <input type="file" name="file" required />
+      <button type="submit">Upload File</button>
+    </form>
+  </section>
+  
+  <!-- Chat Room Section -->
+  <section>
+    <h2>Chat Room</h2>
+    <ul id="messages"></ul>
+    <form id="chatForm">
+      <input id="messageInput" autocomplete="off" placeholder="Type your message here..." required />
+      <button type="submit">Send</button>
+    </form>
+  </section>
+  
+  <!-- Terminal Section -->
+  <section>
+    <h2>Coding Terminal</h2>
+    <div id="terminal"></div>
+    <!-- Note: For a fully interactive terminal, backend integration is needed -->
+  </section>
+  
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://unpkg.com/xterm/lib/xterm.js"></script>
+  <script>
+    // Chat Room Functionality
+    const socket = io();
+    const chatForm = document.getElementById('chatForm');
+    const messageInput = document.getElementById('messageInput');
+    const messages = document.getElementById('messages');
+    
+    chatForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if (messageInput.value) {
+        socket.emit('chat message', messageInput.value);
+        messageInput.value = '';
+      }
+    });
+    
+    socket.on('chat message', msg => {
+      const li = document.createElement('li');
+      li.textContent = msg;
+      messages.appendChild(li);
+    });
+    
+    // Terminal Initialization using xterm.js
+    const term = new Terminal();
+    term.open(document.getElementById('terminal'));
+    term.write('Welcome to your terminal!\\r\\n');
+    
+    // For an interactive terminal, you would connect to a backend process here.
+    // Libraries like ttyd or wetty can help create a secure shell connection.
+  </script>
+</body>
+</html>
