@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Dev Hub Enhanced</title>
+  <link rel="stylesheet" href="https://unpkg.com/xterm/css/xterm.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Dev Hub Enhanced</h1>
+  
+  <!-- File Sharing Section -->
+  <section>
+    <h2>File Upload</h2>
+    <form id="uploadForm" enctype="multipart/form-data" method="post" action="/upload">
+      <input type="file" name="file" required />
+      <button type="submit">Upload File</button>
+    </form>
+    <h3>Uploaded Files</h3>
+    <ul id="fileList"></ul>
+  </section>
+  
+  <!-- Chat Room Section -->
+  <section>
+    <h2>Chat Room</h2>
+    <ul id="messages"></ul>
+    <form id="chatForm">
+      <input id="messageInput" autocomplete="off" placeholder="Type your message here..." required />
+      <button type="submit">Send</button>
+    </form>
+  </section>
+  
+  <!-- Interactive Terminal Section -->
+  <section>
+    <h2>Interactive Terminal</h2>
+    <div id="terminal"></div>
+  </section>
+  
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://unpkg.com/xterm/lib/xterm.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
